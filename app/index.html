@@ -1,0 +1,41 @@
+<!doctype html>
+<html class="no-js">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Screeniac - Los Angeles Special Movie Screenings</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+
+  <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+  <link href='//fonts.googleapis.com/css?family=RobotoDraft:regular,bold,italic,thin,light,bolditalic,black,medium&lang=en' rel='stylesheet' type='text/css'>
+  <!-- build:css styles/main.css -->
+  <link rel="stylesheet" href="styles/main.css">
+  <!-- endbuild-->
+
+  <script src="bower_components/platform/platform.js"></script>
+  <!-- build:vulcanized elements/elements.vulcanized.html -->
+  <link rel="import" href="elements/elements.html">
+  <!-- endbuild-->
+</head>
+
+<body unresolved fullbleed layout vertical>
+  <template is="auto-binding">
+    <core-header-panel mode="scroll" flex>
+      <core-toolbar>
+        <div flex><core-icon class="glyph" icon="star-half"></core-icon> Screeniac</div>
+        <a href="http://www.divshot.com/" target="_blank">Made by Divshot</a>    
+      </core-toolbar>
+      <div>
+        <app-events path="/events"></app-events>
+      </div>
+    </core-header-panel>
+  </template>
+</body>
+
+</html>

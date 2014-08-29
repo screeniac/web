@@ -1,0 +1,92 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/core-icons/core-icons.html">
+<link rel="import" href="../bower_components/core-icon-button/core-icon-button.html">
+<link rel="import" href="../bower_components/core-icons/iconsets/maps-icons.html">
+
+<link rel="import" href="app-ajax.html">
+
+<polymer-element name="app-event" attributes="ref event">
+  <template>
+    <style>
+      :host {
+        display: block;
+        height: 100%;
+        width: 480px;
+        max-width: 100%;
+        background: white;
+        box-shadow: 0 2px 12px black;
+        left: calc(100% - 480px);
+        top: 0;
+      }
+      
+      @media(max-width: 640px) {
+        :host {
+          width: 100%;
+          left: 0;
+        }
+      }
+      
+      #backdrop {
+        height: 200px;
+        background: #222;
+        background-size: cover;
+      }
+      
+      h1 {
+        font-weight: normal;
+        background: #00bcd4;
+        color: white;
+        margin: 0;
+        padding: 8px 12px;
+        white-space: nowrap;
+      }
+      
+      #data {
+        font-size: 0.8em;
+        padding: 10px 0;
+      }
+      #data > div, #data > a {
+        display: block;
+        padding: 4px 8px;
+        text-decoration: none;
+        white-space: nowrap;
+        color: #333;
+      }
+      #data > div core-icon, #data > a core-icon {
+        fill: #666;
+        margin-right: 5px;
+      }
+      
+      #close {
+        position: absolute;
+        top: 0;
+        right: 0;
+        color: white;
+      }
+    </style>
+    <app-ajax id="req" path="/events/{{ref}}" response="{{event}}"></app-ajax>
+    <template if="{{event}}">
+      <section layout vertical>
+        <div id="backdrop" style="background-image: url({{event.show.images.backdrop}})"></div>
+        <core-icon-button icon="close" id="close" on-tap="{{close}}"></core-icon-button>
+        <section flex>
+          <h1>{{event.show.title}}</h1>
+          <section id="data">
+            <div><core-icon icon="event"></core-icon> <strf-time datetime="{{event.time}}" format="%B %d at %-l:%M%P"></strf-time></div>
+            <a href="{{event.venue.places_url}}" target="_blank"><core-icon icon="maps:place"></core-icon> {{event.venue.name}}, {{event.venue.address}}, {{event.venue.city}}, {{event.venue.state}}</a>
+          </section>
+        </section>
+      </section>
+    </template>
+  </template>
+  <script>
+    Polymer({
+      openMaps: function() {
+        window.open(this.event.venue.places_url);
+      },
+      close: function() {
+        this.event = null;
+      }
+    });
+  </script>
+</polymer-element>

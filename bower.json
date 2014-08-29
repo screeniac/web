@@ -1,0 +1,13 @@
+{
+  "name": "web",
+  "version": "0.0.0",
+  "dependencies": {
+    "core-elements": "Polymer/core-elements#~0.3.3",
+    "paper-elements": "Polymer/paper-elements#~0.3.3",
+    "polymer": "Polymer/polymer#~0.3.3",
+    "strftime": "samsonjs/strftime#~0.8.1",
+    "pvc-spinner": "divshot/pvc-spinner",
+    "app-router": "~0.7.0"
+  },
+  "devDependencies": {}
+}

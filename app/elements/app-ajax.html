@@ -1,0 +1,18 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/core-ajax/core-ajax.html">
+
+<polymer-element name="app-ajax" extends="core-ajax" attributes="origin path">
+  <script>
+    Polymer('app-ajax', {
+      handleAs: 'json',
+      origin: 'http://api.screeniac.tv',
+      observe: {
+        origin: 'updateUrl',
+        path: 'updateUrl'
+      },
+      updateUrl: function() {
+        this.url = this.origin + this.path;
+      }
+    });
+  </script>
+</polymer-element>

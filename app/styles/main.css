@@ -1,0 +1,30 @@
+body {
+  font-family: "RobotoDraft", sans-serif;
+  background: #222;
+}
+
+core-toolbar {
+  background: #333;
+  color: white;
+  font-weight: bold;
+  padding: 0 10px;
+}
+
+core-toolbar core-icon.glyph {
+  position: relative;
+  top: -2px;
+  color: #00bcd4;
+}
+
+core-toolbar a {
+  color: white;
+  font-size: 0.7em;
+  font-weight: normal;
+  border: 1px solid #00bcd4;
+  color: #00bcd4;
+  padding: 8px 12px;
+  border-radius: 2px;
+  text-decoration: none;
+  display: inline-block;
+}
+

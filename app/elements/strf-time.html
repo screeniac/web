@@ -1,0 +1,17 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<script src="../bower_components/strftime/strftime.js"></script>
+
+<polymer-element name="strf-time" attributes="datetime format">
+  <script>
+    Polymer('strf-time', {
+      format: '%F %d, %Y',
+      datetimeChanged: function() {
+        this.formatted = strftime(this.format, new Date(this.datetime));
+      },
+      formattedChanged: function () {
+        if (!this.shadowRoot) this.createShadowRoot()
+        this.shadowRoot.innerHTML = this.formatted;
+      }
+    });
+  </script>
+</polymer-element>

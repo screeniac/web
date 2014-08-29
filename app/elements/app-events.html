@@ -1,0 +1,167 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/core-overlay/core-overlay.html">
+<link rel="import" href="../bower_components/core-animated-pages/transitions/tile-cascade.html">
+<link rel="import" href="../bower_components/core-animated-pages/transitions/slide-from-bottom.html">
+<link rel="import" href="../bower_components/pvc-spinner/pvc-spinner.html">
+
+<link rel="import" href="app-ajax.html">
+<link rel="import" href="app-event.html">
+<link rel="import" href="strf-time.html">
+
+<polymer-element name="app-events" attributes="path events">
+  <template>
+      <style>
+        :host {
+          display: block;
+          padding: 5px;
+          overflow-y: auto;
+        }
+        
+        * {
+          box-sizing: border-box;  
+        }
+        
+        .event {
+          display: block;
+          background: #181818;
+          background-size: cover;
+          position: relative;
+          height: 160px;
+          width: calc(50% - 10px);
+          cursor: pointer;
+          margin: 5px;
+          border: 1px solid #111;
+        }
+        
+        @media(max-width: 540px) {
+          .event {
+            width: 100%;
+            margin: 0;
+            border: 0;
+          }
+        }
+        @media(min-width: 1080px) {
+          .event {
+            width: calc(33% - 10px);
+          }
+        }
+        @media(min-width: 1620px) {
+          .event {
+            width: calc(25% - 10px);
+          }
+        }
+        
+        .event .backdrop {
+          background-size: cover;
+          opacity: 0;
+          z-index: 2;
+          transition: opacity 0.3s;
+        }
+        
+        .event .backdrop.loaded {
+          opacity: 1.0;
+        }
+        
+        .info {
+          background: rgba(0,0,0,0.53);
+          color: white;
+          padding: 6px 12px;
+          z-index: 3;
+        }
+        .info span {
+          display: block;
+          text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+        }
+        .title {
+          font-weight: bold;
+          font-size: 1.1em;
+          white-space: nowrap;
+          overflow: hidden;
+        }
+        .venue {
+          font-size: 0.8em;
+          opacity: 0.78;
+        }
+        .venue-city {
+          font-size: 0.8em;
+          font-weight: normal;
+        }
+        .event .when {
+          padding-left: 6px;
+          text-align: center;
+        }
+        .event strf-time {
+          font-weight: bold;
+          /* color: #00bcd4; */
+          display: block;
+        }
+        .event strf-time.time {
+          font-size: 0.8em;
+        }
+      </style>
+    <app-ajax id="req" path="{{path}}" response="{{events}}"></app-ajax>
+    <section id="list" layout horizontal wrap><template repeat="{{event in events}}">
+      <div class="event" layout vertical cross-fade end-justified data-event="{{event.id}}" on-tap="{{chooseEvent}}">
+        <div fit class="backdrop" style="background-image: url({{event.show.images.backdrop}});"></div>
+        <img src="{{event.show.images.backdrop}}" style="display: none;" on-load="{{fadeIn}}">
+        <div class="info" layout horizontal>
+          <div flex class="what">
+            <span class="title">{{event.show.title}}</span>
+            <span class="venue">{{event.venue.name}} ({{event.venue.city}})</span>
+          </div>
+          <div class="when">
+            <strf-time class="date" datetime="{{event.time}}" format="%b %-d"></strf-time>
+            <strf-time class="time" datetime="{{event.time}}" format="%-l:%M%P"></strf-time>
+          </div>
+        </div>
+      </div>
+    </template></section>
+    <core-overlay opened="{{selectedEvent}}" target="{{$.popup}}" layered backdrop></core-overlay>
+    <app-event id="popup" event="{{selectedEvent}}"></app-event>
+  </template>
+  <script>
+    Polymer({
+      ready: function() {
+        //window.addEventListener('popstate', this.popstate.bind(this));
+        //this.popstate();
+      },
+      pathChanged: function() {
+        if (this.path) {
+          this.async(function() {
+            this.$.req.go()
+          });
+        }
+      },
+      formatTime: function(value) {
+        return time;
+      },
+      fadeIn: function(e) {
+        var evt = e.target.parentNode;
+        var backdrop = evt.querySelector('.backdrop');
+        backdrop.classList.add('loaded');
+      },
+      chooseEvent: function(e) {
+        var id = parseInt(e.currentTarget.dataset.event);
+        for (var i in this.events) {
+          console.log(this.events[i].id, id);
+          if (this.events[i].id === id) {
+            var event = this.events[i]
+            break;
+          }
+        }
+        this.selectedEvent = event;
+        if (this.selectedEvent) {
+          //history.pushState({}, '', '/events/' + this.selectedEvent.id);
+        }
+      },
+      popstate: function() {
+        if (window.location.pathname.match(/^\/events\/[0-9]+/)) {
+          
+        } else {
+          // this.selectedEvent = null;
+        }
+      }
+    });
+  </script>
+</polymer-element>
+
